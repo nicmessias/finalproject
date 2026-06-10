@@ -1,9 +1,22 @@
+"""
+BeHeathy Tracker Application
+----------------------------
+Author: Emiliano Acero and Nicole Messias 
+GitHub Username: eaceroyee1308 and nicmessias
+Date: June 16, 2026
+
+Academic Integrity Citation:
+This project was developed with the assistance of an AI collaborator (Gemini)
+to refine data pipeline architectures, troubleshoot file-locking testing fixtures,
+and ensure structural validation against requirements.
+"""
+
 import json
 import datetime
 import os
 from typing import Dict, Any, Optional
 
-# Data file
+# Data file path
 DATA_FILE = "wellness_data.json"
 
 def load_data(filename: str = DATA_FILE) -> Dict:
@@ -14,7 +27,8 @@ def load_data(filename: str = DATA_FILE) -> Dict:
                 return json.load(f)
         except (json.JSONDecodeError, IOError):
             print("Warning: Could not read data file. Starting fresh.")
-    # Default structure
+    
+    # Default fallback data structure
     return {
         "goals": {
             "water": 8,      # glasses per day
@@ -22,11 +36,11 @@ def load_data(filename: str = DATA_FILE) -> Dict:
             "vitamins": True,
             "sleep": 8       # hours
         },
-        "logs": {}  # date -> category data
+        "logs": {}  # maps date string -> logged category tracking data
     }
 
 def save_data(data: Dict, filename: str = DATA_FILE) -> None:
-    """Save current data to JSON file."""
+    """Save current data state safely to a target JSON database configuration."""
     try:
         with open(filename, "w") as f:
             json.dump(data, f, indent=2)
@@ -34,7 +48,7 @@ def save_data(data: Dict, filename: str = DATA_FILE) -> None:
         print("Error: Could not save data.")
 
 def log_entry(category: str, value: Any, date: Optional[str] = None, notes: str = "", filename: str = DATA_FILE) -> bool:
-    """Log an entry for a wellness category. Returns True if successful."""
+    """Log an entry for a specific metrics category on a targeted database ledger date."""
     data = load_data(filename)
     
     if date is None:
@@ -53,7 +67,7 @@ def log_entry(category: str, value: Any, date: Optional[str] = None, notes: str 
     return True
 
 def get_daily_summary(date: Optional[str] = None, filename: str = DATA_FILE) -> Dict:
-    """Return summary for a specific day or today."""
+    """Evaluate metric accomplishments by cross-checking goals vs actual inputs."""
     if date is None:
         date = datetime.date.today().isoformat()
     
@@ -87,11 +101,10 @@ def get_daily_summary(date: Optional[str] = None, filename: str = DATA_FILE) -> 
     return summary
 
 def check_goals(date: Optional[str] = None, filename: str = DATA_FILE) -> Dict:
-    """Check goal completion for a day and return stats."""
-    # FIXED: Passed filename parameter downstream
+    """Calculate specific targeted metrics rates across custom logged inputs."""
     summary = get_daily_summary(date, filename)
     if "status" in summary:
-        return {"date": summary["date"], "completion_rate": 0, "completed": []}
+        return {"date": summary["date"], "completion_rate": 0, "completed_count": 0, "total_goals": 4}
     
     total = len(summary["categories"])
     completed = sum(1 for cat in summary["categories"].values() if cat["completed"])
@@ -104,7 +117,7 @@ def check_goals(date: Optional[str] = None, filename: str = DATA_FILE) -> Dict:
     }
 
 def generate_weekly_report(filename: str = DATA_FILE) -> Dict:
-    """Generate a weekly summary with averages and streaks."""
+    """Read data back spanning multiple days to evaluate macro trends and streaks."""
     data = load_data(filename)
     today = datetime.date.today()
     week_ago = today - datetime.timedelta(days=7)
@@ -115,7 +128,6 @@ def generate_weekly_report(filename: str = DATA_FILE) -> Dict:
     
     for i in range(7):
         check_date = (today - datetime.timedelta(days=i)).isoformat()
-        # FIXED: Passed filename parameter downstream
         result = check_goals(check_date, filename)
         daily_rates.append(result["completion_rate"])
         
@@ -135,11 +147,51 @@ def generate_weekly_report(filename: str = DATA_FILE) -> Dict:
         "period": f"{week_ago} to {today}",
         "average_completion": avg_rate,
         "longest_streak": streak,
-        "daily_rates": daily_rates[::-1]  # most recent first
+        "daily_rates": daily_rates[::-1]  # formatted chronologically
     }
 
+def log_today():
+    """Menu Helper: Prompt input records sequentially across multiple wellness buckets."""
+    categories = ["water", "exercise", "vitamins", "sleep"]
+    print("\nLog today's activities:")
+    
+    for cat in categories:
+        if cat == "vitamins":
+            val = input("Did you take your vitamins? (y/n): ").strip().lower()
+            value = val in ["y", "yes"]
+        else:
+            while True:
+                try:
+                    units = 'glasses' if cat == 'water' else 'minutes' if cat == 'exercise' else 'hours'
+                    prompt = f"Enter {cat} value ({units}): "
+                    value = float(input(prompt))
+                    break
+                except ValueError:
+                    print("Please enter a valid number.")
+        notes = input(f"Notes for {cat} (optional): ").strip()
+        log_entry(cat, value, notes=notes)
+        print(f"Logged {cat} successfully.")
+
+def set_goals():
+    """Menu Helper: Modify active configuration validation thresholds dynamically."""
+    data = load_data()
+    print("\nCurrent goals:", data["goals"])
+    
+    for key in data["goals"]:
+        if key == "vitamins":
+            new_val = input(f"Take vitamins daily? (y/n) [current: {data['goals'][key]}]: ").strip().lower()
+            data["goals"][key] = new_val in ["y", "yes"]
+        else:
+            try:
+                new_val = float(input(f"New goal for {key}: "))
+                data["goals"][key] = new_val
+            except ValueError:
+                print("Keeping current value.")
+    save_data(data)
+    print("Goals updated!")
+
 def main():
-    """Main program loop with menu."""
+    """Application Loop Control Hub interface execution engine logic matrix."""
     print("=== Wellness Tracker ===")
     print("Your personal daily health companion\n")
     
@@ -157,18 +209,38 @@ def main():
         if choice == "1":
             log_today()
         elif choice == "2":
+            # Call daily summary helper
             summary = get_daily_summary()
             print("\nToday's Summary:")
-            print(json.dumps(summary, indent=2))
+            
+            # FIXED: Catching if no metrics have been recorded for today yet
+            if "status" in summary:
+                print(f"-> {summary['status']}. Please use Option 1 to record metrics first!")
+            else:
+                print(json.dumps(summary, indent=2))
+                
         elif choice == "3":
+            # Fetch goal statistical rates
             result = check_goals()
-            print(f"\nGoal completion for today: {result['completion_rate']}%")
+            
+            # FIXED: Print a clear fallback if completion count shows 0 entries 
+            if result.get("completed_count", 0) == 0 and result.get("completion_rate") == 0:
+                print(f"\nGoal completion for today: {result['completion_rate']}%")
+                print("-> Notice: No completed targets recorded for today's date yet.")
+            else:
+                print(f"\nGoal completion for today: {result['completion_rate']}%")
+                print(f"Progress: {result['completed_count']} out of {result['total_goals']} goals met!")
+                
         elif choice == "4":
+            print("\nAnalyzing past 7 days of logs...")
             report = generate_weekly_report()
-            print("\nWeekly Report:")
+            
+            # FIXED: Display the calculated analytical moving arrays properly
+            print("\n=== Weekly Report ===")
             print(f"Period: {report['period']}")
             print(f"Average completion rate: {report['average_completion']}%")
             print(f"Longest streak: {report['longest_streak']} days")
+            print(f"Daily historical trend (past 7 days): {report['daily_rates']}")
         elif choice == "5":
             set_goals()
         elif choice == "6":
@@ -176,45 +248,6 @@ def main():
             break
         else:
             print("Invalid choice. Please try again.")
-
-def log_today():
-    """Helper for logging multiple categories today."""
-    categories = ["water", "exercise", "vitamins", "sleep"]
-    print("\nLog today's activities:")
-    
-    for cat in categories:
-        if cat == "vitamins":
-            val = input(f"Did you take your vitamins? (y/n): ").strip().lower()
-            value = val in ["y", "yes"]
-        else:
-            while True:
-                try:
-                    prompt = f"Enter {cat} value ({'glasses' if cat=='water' else 'minutes' if cat=='exercise' else 'hours'}): "
-                    value = float(input(prompt))
-                    break
-                except ValueError:
-                    print("Please enter a valid number.")
-        notes = input(f"Notes for {cat} (optional): ").strip()
-        log_entry(cat, value, notes=notes)
-        print(f"Logged {cat} successfully.")
-
-def set_goals():
-    """Update user goals."""
-    data = load_data()
-    print("\nCurrent goals:", data["goals"])
-    
-    for key in data["goals"]:
-        if key == "vitamins":
-            new_val = input(f"Take vitamins daily? (y/n) [current: {data['goals'][key]}]: ").strip().lower()
-            data["goals"][key] = new_val in ["y", "yes"]
-        else:
-            try:
-                new_val = float(input(f"New goal for {key}: "))
-                data["goals"][key] = new_val
-            except ValueError:
-                print("Keeping current value.")
-    save_data(data)
-    print("Goals updated!")
 
 if __name__ == "__main__":
     main()

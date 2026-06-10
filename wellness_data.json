@@ -1,9 +1,9 @@
 {
   "goals": {
-    "water": 8,
-    "exercise": 30,
-    "vitamins": true,
-    "sleep": 8
+    "water": 10.0,
+    "exercise": 60.0,
+    "vitamins": false,
+    "sleep": 8.5
   },
   "logs": {
     "2026-06-09": {
@@ -25,9 +25,24 @@
     },
     "2026-06-10": {
       "sleep": {
-        "value": 4.0,
-        "notes": "woke up in the middle of the night",
-        "timestamp": "2026-06-10T00:00:29.178343"
+        "value": 10.0,
+        "notes": "",
+        "timestamp": "2026-06-10T18:53:52.716118"
+      },
+      "water": {
+        "value": 6.0,
+        "notes": "",
+        "timestamp": "2026-06-10T18:53:27.673721"
+      },
+      "exercise": {
+        "value": 70.0,
+        "notes": "",
+        "timestamp": "2026-06-10T18:53:32.475828"
+      },
+      "vitamins": {
+        "value": true,
+        "notes": "",
+        "timestamp": "2026-06-10T18:53:36.296320"
       }
     }
   }
