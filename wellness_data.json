@@ -1,0 +1,34 @@
+{
+  "goals": {
+    "water": 8,
+    "exercise": 30,
+    "vitamins": true,
+    "sleep": 8
+  },
+  "logs": {
+    "2026-06-09": {
+      "water": {
+        "value": 6.0,
+        "notes": "",
+        "timestamp": "2026-06-09T23:59:24.619851"
+      },
+      "exercise": {
+        "value": 75.0,
+        "notes": "15 minutes of cardio",
+        "timestamp": "2026-06-09T23:59:43.629121"
+      },
+      "vitamins": {
+        "value": true,
+        "notes": "vitamin c is over",
+        "timestamp": "2026-06-09T23:59:59.528711"
+      }
+    },
+    "2026-06-10": {
+      "sleep": {
+        "value": 4.0,
+        "notes": "woke up in the middle of the night",
+        "timestamp": "2026-06-10T00:00:29.178343"
+      }
+    }
+  }
+}
