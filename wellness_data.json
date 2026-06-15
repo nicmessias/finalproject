@@ -25,24 +25,24 @@
     },
     "2026-06-10": {
       "sleep": {
-        "value": 10.0,
+        "value": 4.0,
         "notes": "",
-        "timestamp": "2026-06-10T18:53:52.716118"
+        "timestamp": "2026-06-10T19:04:42.749742"
       },
       "water": {
         "value": 6.0,
-        "notes": "",
-        "timestamp": "2026-06-10T18:53:27.673721"
+        "notes": "j",
+        "timestamp": "2026-06-10T19:04:25.036583"
       },
       "exercise": {
-        "value": 70.0,
-        "notes": "",
-        "timestamp": "2026-06-10T18:53:32.475828"
+        "value": 45.0,
+        "notes": "k",
+        "timestamp": "2026-06-10T19:04:36.198528"
       },
       "vitamins": {
         "value": true,
         "notes": "",
-        "timestamp": "2026-06-10T18:53:36.296320"
+        "timestamp": "2026-06-10T19:04:39.815623"
       }
     }
   }
