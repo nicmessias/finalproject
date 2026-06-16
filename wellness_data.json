@@ -1,9 +1,9 @@
 {
   "goals": {
-    "water": 10.0,
-    "exercise": 90.0,
+    "water": 6.0,
+    "exercise": 45.0,
     "vitamins": true,
-    "sleep": 10.0
+    "sleep": 5.0
   },
   "logs": {
     "2026-06-09": {
@@ -47,24 +47,46 @@
     },
     "2026-06-15": {
       "water": {
-        "value": 6.0,
-        "notes": "Tasty",
-        "timestamp": "2026-06-15T22:10:52.094498"
+        "value": 5.0,
+        "notes": "",
+        "timestamp": "2026-06-15T23:58:33.286771"
       },
       "exercise": {
-        "value": 60.0,
-        "notes": "Chest day",
-        "timestamp": "2026-06-15T22:11:05.421077"
+        "value": 45.0,
+        "notes": "",
+        "timestamp": "2026-06-15T23:58:37.438146"
       },
       "vitamins": {
         "value": true,
-        "notes": "Need to buy more vitamin D",
-        "timestamp": "2026-06-15T22:11:19.298183"
+        "notes": "",
+        "timestamp": "2026-06-15T23:58:40.090461"
       },
       "sleep": {
-        "value": 1.0,
-        "notes": "Try and sleep more",
-        "timestamp": "2026-06-15T22:11:32.306276"
+        "value": 10.0,
+        "notes": "",
+        "timestamp": "2026-06-15T23:58:44.065147"
+      }
+    },
+    "2026-06-16": {
+      "water": {
+        "value": 5.0,
+        "notes": "",
+        "timestamp": "2026-06-16T00:05:29.107766"
+      },
+      "exercise": {
+        "value": 45.0,
+        "notes": "",
+        "timestamp": "2026-06-16T00:05:32.949749"
+      },
+      "vitamins": {
+        "value": true,
+        "notes": "",
+        "timestamp": "2026-06-16T00:05:36.228934"
+      },
+      "sleep": {
+        "value": 15.0,
+        "notes": "",
+        "timestamp": "2026-06-16T00:05:39.944931"
       }
     }
   }
